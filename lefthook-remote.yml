@@ -1,0 +1,9 @@
+pre-commit:
+  commands:
+    skill-registered:
+      run: timeout ${LEFTHOOK_SKILL_REGISTERED_TIMEOUT:-30} lefthook-skill-registered {staged_files}
+
+pre-push:
+  commands:
+    skill-registered:
+      run: timeout ${LEFTHOOK_SKILL_REGISTERED_TIMEOUT:-30} lefthook-skill-registered {push_files}
