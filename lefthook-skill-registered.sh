@@ -15,22 +15,22 @@ PREFIX="${LEFTHOOK_SKILL_REGISTERED_PREFIX:-}"
 STRIP="${LEFTHOOK_SKILL_REGISTERED_STRIP:-}"
 
 if [ -z "$REGISTRY" ]; then
-    echo "check-skill-registered: LEFTHOOK_SKILL_REGISTERED_FILE not set" >&2
-    echo "  Set it to the registry file path (relative to repo root)." >&2
-    exit 1
+  echo "check-skill-registered: LEFTHOOK_SKILL_REGISTERED_FILE not set" >&2
+  echo "  Set it to the registry file path (relative to repo root)." >&2
+  exit 1
 fi
 
 if [ -z "$PREFIX" ]; then
-    echo "check-skill-registered: LEFTHOOK_SKILL_REGISTERED_PREFIX not set" >&2
-    echo "  Set it to the expected import prefix, e.g. '@./skills/'." >&2
-    exit 1
+  echo "check-skill-registered: LEFTHOOK_SKILL_REGISTERED_PREFIX not set" >&2
+  echo "  Set it to the expected import prefix, e.g. '@./skills/'." >&2
+  exit 1
 fi
 
 if [ -z "$STRIP" ]; then
-    echo "check-skill-registered: LEFTHOOK_SKILL_REGISTERED_STRIP not set" >&2
-    echo "  Set it to the directory prefix to strip from file paths" >&2
-    echo "  before appending to PREFIX, e.g. 'docs/skills/'." >&2
-    exit 1
+  echo "check-skill-registered: LEFTHOOK_SKILL_REGISTERED_STRIP not set" >&2
+  echo "  Set it to the directory prefix to strip from file paths" >&2
+  echo "  before appending to PREFIX, e.g. 'docs/skills/'." >&2
+  exit 1
 fi
 
 REGISTRY_PATH="$ROOT/$REGISTRY"
@@ -38,29 +38,29 @@ REGISTRY_PATH="$ROOT/$REGISTRY"
 
 failed=0
 for file in "$@"; do
-    [ -f "$file" ] || continue
+  [ -f "$file" ] || continue
 
-    abs="$file"
-    case "$file" in
-        /*) : ;;
-        *) abs="$ROOT/$file" ;;
-    esac
+  abs="$file"
+  case "$file" in
+    /*) : ;;
+    *) abs="$ROOT/$file" ;;
+  esac
 
-    rel="${abs#"$ROOT/"}"
+  rel="${abs#"$ROOT/"}"
 
-    case "$rel" in
-        "${STRIP}"*) : ;;
-        *) continue ;;
-    esac
+  case "$rel" in
+    "${STRIP}"*) : ;;
+    *) continue ;;
+  esac
 
-    subpath="${rel#"$STRIP"}"
-    import_line="${PREFIX}${subpath}"
+  subpath="${rel#"$STRIP"}"
+  import_line="${PREFIX}${subpath}"
 
-    if ! grep -Fxq "$import_line" "$REGISTRY_PATH"; then
-        printf '%s: not registered — add this line to %s:\n    %s\n' \
-            "$rel" "$REGISTRY" "$import_line" >&2
-        failed=1
-    fi
+  if ! grep -Fxq "$import_line" "$REGISTRY_PATH"; then
+    printf '%s: not registered — add this line to %s:\n    %s\n' \
+      "$rel" "$REGISTRY" "$import_line" >&2
+    failed=1
+  fi
 done
 
 exit "$failed"
