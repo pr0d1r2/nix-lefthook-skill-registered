@@ -38,13 +38,13 @@ REGISTRY_PATH="$ROOT/$REGISTRY"
 
 failed=0
 for file in "$@"; do
-  [ -f "$file" ] || continue
-
   abs="$file"
   case "$file" in
     /*) : ;;
     *) abs="$ROOT/$file" ;;
   esac
+
+  [ -f "$abs" ] || continue
 
   rel="${abs#"$ROOT/"}"
 

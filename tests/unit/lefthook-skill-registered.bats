@@ -30,6 +30,11 @@ MD
     assert_success
 }
 
+@test "root-relative file passes from a repository subdirectory" {
+    run bash -c "cd '$TMP/docs' && lefthook-skill-registered docs/skills/git.md"
+    assert_success
+}
+
 @test "unregistered file fails" {
     touch "$TMP/docs/skills/docker.md"
     run lefthook-skill-registered "$TMP/docs/skills/docker.md"
