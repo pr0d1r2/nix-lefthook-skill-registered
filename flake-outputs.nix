@@ -94,10 +94,10 @@
               actionlint "$@"
             '';
           };
-          workflowSrc = pkgs.lib.sources.sourceByRegex [ "^\\.github/workflows/.*" ] ./.;
+          workflowSrc = pkgs.lib.sources.sourceByRegex ./. [ "^\\.github/workflows/.*" ];
         in
         (
-          (set-and-setting.lib.checksFor {
+          (builtins.removeAttrs (set-and-setting.lib.checksFor {
             inherit pkgs;
             fragments = [
               "base"
@@ -108,7 +108,7 @@
               "yaml"
             ];
             src = ./.;
-          })
+          }) [ "actionlint" ])
           // {
             actionlint = set-and-setting.lib.mkLefthookCheck {
               inherit pkgs;
