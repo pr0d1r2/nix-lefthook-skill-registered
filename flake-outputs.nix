@@ -94,7 +94,10 @@
               actionlint "$@"
             '';
           };
-          workflowSrc = pkgs.lib.sources.sourceFilesBySuffices ./.github/workflows [ ".yml" ".yaml" ];
+          workflowSrc = pkgs.lib.sources.sourceFilesBySuffices ./.github/workflows [
+            ".yml"
+            ".yaml"
+          ];
         in
         (
           (builtins.removeAttrs (set-and-setting.lib.checksFor {
