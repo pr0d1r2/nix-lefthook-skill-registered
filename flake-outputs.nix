@@ -42,7 +42,6 @@
           pkgs = nixpkgs.legacyPackages.${system};
           fragments = [
             "base"
-            "actions"
             "nix"
             "shell"
             "ascii"
@@ -87,7 +86,7 @@
               actionlint "$@"
             '';
           };
-          workflowSrc = pkgs.lib.sources.sourceByRegex ./. [ "^\\.github/workflows/.*" ];
+          workflowSrc = pkgs.lib.sources.sourceByRegex [ "^\\.github/workflows/.*" ] ./.;
         in
         (
           (set-and-setting.lib.checksFor {
