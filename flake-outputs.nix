@@ -50,10 +50,17 @@
             "yaml"
           ];
           mat = set-and-setting.lib.materializationFor { inherit pkgs fragments; };
+          actionlintWrapper = pkgs.writeShellApplication {
+            name = "lefthook-actionlint";
+            runtimeInputs = [ pkgs.actionlint ];
+            text = ''
+              actionlint "$@"
+            '';
+          };
         in
         set-and-setting.lib.mkDevShells {
           inherit pkgs;
-          basePackages = mat.packages;
+          basePackages = mat.packages ++ [ actionlintWrapper ];
           settingHook = ''
             ${self.packages.${system}.setting}/bin/sync-setting .
             _assemble_out="$(mktemp -d)"
@@ -87,10 +94,13 @@
               actionlint "$@"
             '';
           };
-          workflowSrc = pkgs.lib.sources.sourceByRegex ./. [ "^\\.github/workflows/.*" ];
+          workflowSrc = pkgs.lib.sources.sourceFilesBySuffices ./.github/workflows [
+            ".yml"
+            ".yaml"
+          ];
         in
         (
-          (set-and-setting.lib.checksFor {
+          (builtins.removeAttrs (set-and-setting.lib.checksFor {
             inherit pkgs;
             fragments = [
               "base"
@@ -101,7 +111,7 @@
               "yaml"
             ];
             src = ./.;
-          })
+          }) [ "actionlint" ])
           // {
             actionlint = set-and-setting.lib.mkLefthookCheck {
               inherit pkgs;
@@ -112,6 +122,7 @@
                 ".yml"
                 ".yaml"
               ];
+              pathPrefix = null;
             };
           }
         )
