@@ -79,19 +79,29 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
+          actionlintWrapper = pkgs.writeShellApplication {
+            name = "lefthook-actionlint";
+            runtimeInputs = [ pkgs.actionlint ];
+            text = ''
+              [ "$1" = "--check" ] && shift
+              actionlint "$@"
+            '';
+          };
+          workflowSrc = pkgs.lib.sources.sourceByRegex ./. [ "^\\.github/workflows/.*" ];
         in
-        (set-and-setting.lib.checksFor {
+        ((set-and-setting.lib.checksFor {
           inherit pkgs;
-          fragments = [
-            "base"
-            "actions"
-            "nix"
-            "shell"
-            "ascii"
-            "markdown"
-            "yaml"
-          ];
+          fragments = [ "base" "nix" "shell" "ascii" "markdown" "yaml" ];
           src = ./.;
+        })
+        // {
+          actionlint = set-and-setting.lib.mkLefthookCheck {
+            inherit pkgs;
+            wrapper = actionlintWrapper;
+            src = workflowSrc;
+            name = "actionlint";
+            suffices = [ ".yml" ".yaml" ];
+          };
         })
         // {
           dep-graph = set-and-setting.lib.mkDepGraphCheck {
