@@ -15,6 +15,11 @@
   };
 
   outputs =
-    { self, nixpkgs, set-and-setting, ... }:
+    {
+      self,
+      nixpkgs,
+      set-and-setting,
+      ...
+    }:
     import ./flake-outputs.nix { inherit self nixpkgs set-and-setting; };
 }
