@@ -50,10 +50,17 @@
             "yaml"
           ];
           mat = set-and-setting.lib.materializationFor { inherit pkgs fragments; };
+          actionlintWrapper = pkgs.writeShellApplication {
+            name = "lefthook-actionlint";
+            runtimeInputs = [ pkgs.actionlint ];
+            text = ''
+              actionlint "$@"
+            '';
+          };
         in
         set-and-setting.lib.mkDevShells {
           inherit pkgs;
-          basePackages = mat.packages;
+          basePackages = mat.packages ++ [ actionlintWrapper ];
           settingHook = ''
             ${self.packages.${system}.setting}/bin/sync-setting .
             _assemble_out="$(mktemp -d)"
