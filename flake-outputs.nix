@@ -94,7 +94,7 @@
               actionlint "$@"
             '';
           };
-          workflowSrc = pkgs.lib.sources.sourceByRegex ./. [ "^\\.github/workflows/.*" ];
+          workflowSrc = pkgs.lib.sources.sourceFilesBySuffices ./.github/workflows [ ".yml" ".yaml" ];
         in
         (
           (builtins.removeAttrs (set-and-setting.lib.checksFor {
@@ -119,6 +119,7 @@
                 ".yml"
                 ".yaml"
               ];
+              pathPrefix = null;
             };
           }
         )

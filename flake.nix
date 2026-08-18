@@ -15,23 +15,8 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      set-and-setting,
-      ...
-    }:
-    set-and-setting.lib.mkConsumerFlake {
+    { self, nixpkgs, set-and-setting, ... }:
+    import ./flake-outputs.nix {
       inherit self nixpkgs set-and-setting;
-      fragments = [
-        "base"
-        "actions"
-        "nix"
-        "shell"
-        "ascii"
-        "markdown"
-        "yaml"
-      ];
-      src = ./.;
     };
 }
