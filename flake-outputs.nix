@@ -84,7 +84,6 @@
           inherit pkgs;
           fragments = [
             "base"
-            "actions"
             "nix"
             "shell"
             "ascii"
