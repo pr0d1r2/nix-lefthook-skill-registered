@@ -42,6 +42,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
           fragments = [
             "base"
+            "actions"
             "nix"
             "shell"
             "ascii"
@@ -83,6 +84,7 @@
           inherit pkgs;
           fragments = [
             "base"
+            "actions"
             "nix"
             "shell"
             "ascii"
@@ -114,6 +116,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
           fragments = [
             "base"
+            "actions"
             "nix"
             "shell"
             "ascii"
