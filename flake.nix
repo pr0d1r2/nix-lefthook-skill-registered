@@ -21,7 +21,17 @@
       set-and-setting,
       ...
     }:
-    import ./flake-outputs.nix {
+    set-and-setting.lib.mkConsumerFlake {
       inherit self nixpkgs set-and-setting;
+      fragments = [
+        "base"
+        "actions"
+        "nix"
+        "shell"
+        "ascii"
+        "markdown"
+        "yaml"
+      ];
+      src = ./.;
     };
 }
