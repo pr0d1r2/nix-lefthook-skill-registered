@@ -9,3 +9,4 @@ All notable changes to this project are documented here.
   never provided.
 - Fixed: `.editorconfig` sets `switch_case_indent` for `*.sh`, matching the
   indented `case` arms the standard's shfmt check now reads it for.
+- Changed: flake pins refreshed.
