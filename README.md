@@ -16,7 +16,7 @@ module definitions are always wired into a central manifest.
 
 Given this structure:
 
-```
+```text
 docs/skills/git.md
 docs/skills/nix.md
 docs/index.md        # must contain @./skills/git.md and @./skills/nix.md
