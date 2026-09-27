@@ -112,3 +112,4 @@ private refs.
 | id | date | cause | fix |
 | ---- | ---- | ----- | --- |
 | B1 | 2026-09-27 | the vendored→referenced migration dropped `packages.default` (left in an unused `flake-outputs.nix`); the standard's dev shell never carried the binary, so once a pin refresh started running `tests/unit` every spec failed `lefthook-skill-registered: command not found` | `extraPackages` restores `packages.default`; specs put a shim for the working-tree script on `PATH` |
+| B2 | 2026-09-27 | the standard's shfmt check now reads `.editorconfig`; without `switch_case_indent` it rejects the indented `case` arms | `[*.sh] switch_case_indent = true` |
