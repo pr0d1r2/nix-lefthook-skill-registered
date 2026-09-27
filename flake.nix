@@ -1,5 +1,5 @@
 {
-  description = "CHANGEME";
+  description = "Lefthook-compatible file-registry check";
 
   nixConfig = {
     extra-substituters = [ "https://pr0d1r2.cachix.org" ];
@@ -32,6 +32,13 @@
         "markdown"
         "yaml"
       ];
+      extraPackages = pkgs: {
+        default = pkgs.writeShellApplication {
+          name = "lefthook-skill-registered";
+          runtimeInputs = [ pkgs.git ];
+          text = builtins.readFile ./lefthook-skill-registered.sh;
+        };
+      };
       src = ./.;
     };
 }

@@ -4,6 +4,16 @@ setup() {
     load "${BATS_LIB_PATH}/bats-support/load.bash"
     load "${BATS_LIB_PATH}/bats-assert/load.bash"
 
+    # The standard's dev shell does not carry this repo's own package, so
+    # exercise the working-tree script under the same strict mode
+    # writeShellApplication gives packages.default.
+    SCRIPT="$BATS_TEST_DIRNAME/../../lefthook-skill-registered.sh"
+    mkdir -p "$BATS_TEST_TMPDIR/bin"
+    printf '#!/usr/bin/env bash\nexec bash -euo pipefail "%s" "$@"\n' \
+        "$SCRIPT" >"$BATS_TEST_TMPDIR/bin/lefthook-skill-registered"
+    chmod +x "$BATS_TEST_TMPDIR/bin/lefthook-skill-registered"
+    export PATH="$BATS_TEST_TMPDIR/bin:$PATH"
+
     TMP="$BATS_TEST_TMPDIR/repo"
     mkdir -p "$TMP/docs/skills"
 

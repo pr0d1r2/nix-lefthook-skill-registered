@@ -3,3 +3,7 @@
 All notable changes to this project are documented here.
 
 ## Unreleased
+
+- Fixed: `packages.default` restored (lost in the referenced migration);
+  bats specs run the working-tree script instead of a binary the dev shell
+  never provided.
