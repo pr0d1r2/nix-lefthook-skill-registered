@@ -6,6 +6,7 @@
 language: en-US
 reviews:
   profile: chill
+  request_changes_workflow: false
   auto_approvals:
     enabled: false
   poem: false
